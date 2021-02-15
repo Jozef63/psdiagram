@@ -724,7 +724,13 @@ blockStatement
 	:	localVariableDeclarationStatement
 	|	classDeclaration
 	|	statement
+	|   comment
 	;
+
+comment 
+    : COMMENT
+    | LINE_COMMENT
+    ;
 
 localVariableDeclarationStatement
 	:	localVariableDeclaration ';'
@@ -1771,9 +1777,9 @@ WS  :  [ \t\r\n\u000C]+ -> skip
     ;
 
 COMMENT
-    :   '/*' .*? '*/' -> channel(HIDDEN)
+    :   '/*' .*? '*/'
     ;
 
 LINE_COMMENT
-    :   '//' ~[\r\n]* -> channel(HIDDEN)
+    :   '//' ~[\r\n]*
     ;

@@ -20,8 +20,11 @@ import cz.miroslavbartyzal.psdiagram.app.flowchart.symbols.Symbol;
 import cz.miroslavbartyzal.psdiagram.app.parser.Java8Lexer;
 import cz.miroslavbartyzal.psdiagram.app.parser.Java8Parser;
 import cz.miroslavbartyzal.psdiagram.app.parser.PSDGrammarParser;
+import cz.miroslavbartyzal.psdiagram.app.parser.Python3Lexer;
+import cz.miroslavbartyzal.psdiagram.app.parser.Python3Parser;
 import cz.miroslavbartyzal.psdiagram.app.parser.antlr.JavaToPSDVisitor;
 import cz.miroslavbartyzal.psdiagram.app.parser.antlr.PSDToJavaVisitor;
+import cz.miroslavbartyzal.psdiagram.app.parser.antlr.PythonToPSDVisitor;
 
 import java.awt.HeadlessException;
 import java.util.HashMap;
@@ -54,18 +57,18 @@ public final class Python {
     private static String sourceCode;
 
 	public static Flowchart<LayoutSegment, LayoutElement> getFlowchart(String code) {
-		code = code.replaceAll("  ", " ");
-		code = code.replaceAll("  ", " ");
-		code = code.replaceAll("\n", "");
-		code = code.replaceAll("\t", "");
+//		code = code.replaceAll("  ", " ");
+//		code = code.replaceAll("  ", " ");
+//		code = code.replaceAll("\n", "");
+//		code = code.replaceAll("\t", "");
 		CharStream chars = CharStreams.fromString(code);
-		Java8Lexer lexer = new Java8Lexer(chars);
+		Python3Lexer lexer = new Python3Lexer(chars);
 		BufferedTokenStream tokenStream  = new BufferedTokenStream(new ListTokenSource(lexer.getAllTokens()));
 		
-        Java8Parser parser = new Java8Parser(tokenStream);
-        ParseTree tree = parser.methodBody();
+        Python3Parser parser = new Python3Parser(tokenStream);
+        ParseTree tree = parser.funcdef();
         if (tree!=null) {
-        	JavaToPSDVisitor visitor = new JavaToPSDVisitor();
+        	PythonToPSDVisitor visitor = new PythonToPSDVisitor();
         	
             
             Flowchart<LayoutSegment, LayoutElement> flowchart= visitor.visit(tree);
